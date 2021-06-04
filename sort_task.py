@@ -17,9 +17,11 @@ def sort_data(data, col_num=2):
 
 def sort_process(conn):
     start_time = datetime.now()
+
     data = db.fetch_all_data(conn, setup.ADS_TABLE_NAME)
     sort_data(data)
     db.insert_data(conn, setup.RESULTS_STEP1_TABLE_NAME, data)
+
     end_time = datetime.now()
     time_delta = end_time - start_time
     return time_delta.total_seconds()

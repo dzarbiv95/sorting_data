@@ -28,3 +28,14 @@ def fetch_all_data(conn, table_name):
     cur = conn.cursor()
     cur.execute(query)
     return cur.fetchall()
+
+
+def fetch_chunk_data(conn, table_name, size=2000):
+    query = f"SELECT * FROM {table_name}"
+    cur = conn.cursor()
+    cur.execute(query)
+    chunk = cur.fetchmany(size)
+    yield chunk
+    while chunk:
+        chunk = cur.fetchmany(size)
+        yield chunk
