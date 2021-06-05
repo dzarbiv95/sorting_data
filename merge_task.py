@@ -4,14 +4,14 @@ import sort_task
 from datetime import datetime
 
 
-def marge_sort_data(data1, data1_col_idx, data2, data2_col_idx):
+def marge_sort_data(data1, data2, col_idx):
     """
     this function receive two sorted lists of data tuples and merge him to large sorted list.
-    the sort based on one column in each list data.
+    the sort based on one column in the data lists.
+
     :param data1: first sorted list of data tuples
-    :param data1_col_idx: the index of the sorted column in the first list
     :param data2: second sorted list of data tuples
-    :param data2_col_idx: the index of the sorted column in the second list
+    :param col_idx: the index of the sorted column
     :return: large sorted list of data tuples
     """
     if not data1:
@@ -23,7 +23,7 @@ def marge_sort_data(data1, data1_col_idx, data2, data2_col_idx):
     idx1 = 0
     idx2 = 0
     while idx1 < len(data1) and idx2 < len(data2):
-        if data1[idx1][data1_col_idx] < data2[idx2][data2_col_idx]:
+        if data1[idx1][col_idx] < data2[idx2][col_idx]:
             all_data.append(data1[idx1])
             idx1 += 1
         else:
@@ -47,7 +47,7 @@ def sort_merge_process(conn):
         if not data:
             continue
         sort_task.sort_data(data)
-        all_data = marge_sort_data(all_data, 2, data, 2)
+        all_data = marge_sort_data(all_data, data, 2)
     db.insert_data(conn, setup.RESULTS_STEP2_TABLE_NAME, all_data)
 
     end_time = datetime.now()
