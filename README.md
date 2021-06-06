@@ -4,6 +4,7 @@ This project implements data sort process in three versions.
 * `sort_task` fetch the data and sort it.
 * `merge_task` we have limitation on the size of the data in one sort. we sort chunks and merge them to a long list.
 * `parallel_task` we must improve the process performance. we implement the `merge_task` in multi-tasking process.
+Finally, the project provide a simple api server that provide access to the sorted data.
 
 The project contains 7 python files:
 * `connection_db.py` - the model that accompanies the database connection.
@@ -49,3 +50,11 @@ For the merge method built unit test in the `test_unit.py` file.
 Now, we must improve the process performance.
 The third step implements in `parallel_task.py` script.
 In this step we implement the merging task from step 2 by multi threading task.
+
+## api server
+
+This part implements a simple API server.
+The API server implements in the `flask_server.py` script.
+This script provides basic local server that get numeric argument named TOP and return the first words from the sorted table according this number.
+If the argument have no value, the server return all the words from the table.
+The url for the server is the url of the server that run the script and after then: \api\getads\?top=`num`
