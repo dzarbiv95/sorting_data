@@ -1,4 +1,4 @@
-# sort_lists
+# sorting_data
 
 This project implements data sort process in three versions.
 * `sort_task` fetch the data and sort it.
