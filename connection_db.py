@@ -39,3 +39,13 @@ def fetch_chunk_data(conn, table_name, size=2000):
     while chunk:
         chunk = cur.fetchmany(size)
         yield chunk
+
+
+def fetch_first_words(conn, table_name, top=None):
+    cur = conn.cursor()
+    cur.execute(f"select DATA from {table_name}")
+    if top:
+        data = cur.fetchmany(top)
+    else:
+        data = cur.fetchall()
+    return data
