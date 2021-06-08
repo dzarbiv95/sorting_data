@@ -24,7 +24,6 @@ def merge_sort_data(*args, col_idx=2):
                 min_idx = i
             elif args[i][0][col_idx] < args[min_idx][0][col_idx]:
                 min_idx = i
-        print(args[min_idx][0][col_idx])
         all_data.append(args[min_idx].pop(0))
 
     return all_data
