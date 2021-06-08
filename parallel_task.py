@@ -15,12 +15,10 @@ def parallel_merge(data_gen):
         all_threads.append(thread)
         thread.start()
 
-    sorted_data = []
-    for i, thread in enumerate(all_threads):
+    for thread in all_threads:
         thread.join()
-        sorted_data = merge_task.marge_sort_data(sorted_data, all_data[i], 2)
 
-    return sorted_data
+    return merge_task.merge_sort_data(*all_data, 2)
 
 
 def process_parallel_merging(conn):

@@ -4,36 +4,31 @@ import sort_task
 from datetime import datetime
 
 
-def marge_sort_data(data1, data2, col_idx):
+def merge_sort_data(*args, col_idx=2):
     """
     this function receive two sorted lists of data tuples and merge him to large sorted list.
     the sort based on one column in the data lists.
 
-    :param data1: first sorted list of data tuples
-    :param data2: second sorted list of data tuples
-    :param col_idx: the index of the sorted column
+    :param col_idx: the index of the sorted column for the merging
+    :param args: same sorted lists of data tuples
     :return: large sorted list of data tuples
     """
-    if not data1:
-        return data2
-    if not data2:
-        return data1
+    if not args:
+        return []
+    if len(args) == 1:
+        return args[0]
 
     all_data = []
-    idx1 = 0
-    idx2 = 0
-    while idx1 < len(data1) and idx2 < len(data2):
-        if data1[idx1][col_idx] < data2[idx2][col_idx]:
-            all_data.append(data1[idx1])
-            idx1 += 1
-        else:
-            all_data.append(data2[idx2])
-            idx2 += 1
-
-    if idx1 == len(data1):
-        all_data = all_data + data2[idx2:]
-    else:
-        all_data = all_data + data1[idx1:]
+    while any(args):
+        min_idx = None
+        for i in range(len(args)):
+            if not args[i]:
+                continue
+            elif not min_idx:
+                min_idx = i
+            elif args[i][0][col_idx] < args[min_idx][0][col_idx]:
+                min_idx = i
+        all_data.append(args[min_idx].pop(0))
 
     return all_data
 
@@ -47,9 +42,10 @@ def sort_merge_process(conn):
         if not data:
             continue
         sort_task.sort_data(data)
-        all_data = marge_sort_data(all_data, data, 2)
-    db.insert_data(conn, setup.RESULTS_STEP2_TABLE_NAME, all_data)
+        all_data.append(data)
 
+    sorted_data = merge_sort_data(*all_data)
+    db.insert_data(conn, setup.RESULTS_STEP2_TABLE_NAME, sorted_data)
     end_time = datetime.now()
     time_delta = end_time - start_time
     return time_delta.total_seconds()
