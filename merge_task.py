@@ -13,21 +13,18 @@ def merge_sort_data(*args, col_idx=2):
     :param args: same sorted lists of data tuples
     :return: large sorted list of data tuples
     """
-    if not args:
-        return []
-    if len(args) == 1:
-        return args[0]
-
+    args = [data.copy() for data in args]
     all_data = []
     while any(args):
         min_idx = None
         for i in range(len(args)):
             if not args[i]:
                 continue
-            elif not min_idx:
+            elif min_idx is None:
                 min_idx = i
             elif args[i][0][col_idx] < args[min_idx][0][col_idx]:
                 min_idx = i
+        print(args[min_idx][0][col_idx])
         all_data.append(args[min_idx].pop(0))
 
     return all_data
